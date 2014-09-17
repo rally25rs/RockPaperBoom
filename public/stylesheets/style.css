@@ -11,3 +11,7 @@ textarea {
     width: 80%;
     height: 30em;
 }
+
+.buttons a {
+    margin-right: 3em;
+}

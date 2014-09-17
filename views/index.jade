@@ -3,8 +3,9 @@ extends layout
 block content
   h1= title
 
-  p
+  p.buttons
     a(href="play/") Enter the competition...
+    a(href="clear/") Clear all entries.
 
   h2 Player Entries
   ul.entries
@@ -12,4 +13,4 @@ block content
       li= entry.name
 
   p
-    a(href="tournament/") Begin the games!  
+    a(href="tournament/") Begin the games!
