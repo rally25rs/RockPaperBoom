@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1= title
+
+  h2 Results
+  table.results
+    each result in results
+      tr
+        td= result.p1
+        td= result.p2
+      tr
+        td= result.p1wins
+        td= result.p2wins

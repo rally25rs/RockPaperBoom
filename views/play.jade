@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  h1= title
+
+  form(action="/play" method="POST")
+
+      p Enter your player name:
+      input(type="text" name="name" placeholder="Player name")
+
+      p Enter your code:
+      textarea(name="code")
+          | {
+          |   start: function () {
+          |   },
+          | 
+          |   end: function () {
+          |   },
+          | 
+          |   play: function () {
+          |     return "W"; // R,P,S,D,W
+          |   },
+          | 
+          |   result: function (opponentPlayed) {
+          |   }
+          | }
+
+      input(type="submit")

@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1= title
+
+  p
+    a(href="play/") Enter the competition...
+
+  h2 Player Entries
+  ul.entries
+    each entry in entries
+      li= entry.name
+
+  p
+    a(href="tournament/") Begin the games!  
