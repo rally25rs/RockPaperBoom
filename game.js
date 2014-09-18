@@ -32,7 +32,7 @@ var _getP2Result = function(p1result) {
 
 var _try = function (entry, code, funcName, params) {
     try {
-        code[funcName].apply(code, params);
+        return code[funcName].apply(code, params);
     } catch (ex) {
         console.log("Error from: " + entry.name, ex);
     }
