@@ -15,3 +15,7 @@ textarea {
 .buttons a {
     margin-right: 3em;
 }
+
+.entries > li {
+    margin-bottom: 1em;
+}

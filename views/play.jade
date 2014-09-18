@@ -21,7 +21,9 @@ block content
           |     return "W"; // R,P,S,D,W
           |   },
           | 
-          |   result: function (opponentPlayed) {
+          |   result: function (opponentPlayed, result) {
+          |     // opponentPlayed is one of: R,P,S,D,W
+          |     // result is one of: 'win', 'loss', 'tie'
           |   }
           | }
 

@@ -3,6 +3,23 @@ extends layout
 block content
   h1= title
 
+  h2 Entries
+
+  ul
+    each entry in entries
+      li
+        span= entry.name
+        ul
+          li
+            span W:
+            span= entry.wins
+          li
+            span L:
+            span= entry.losses
+          li
+            span T:
+            span= entry.ties
+
   h2 Results
   table.results
     each result in results

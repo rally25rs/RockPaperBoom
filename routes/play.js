@@ -9,12 +9,25 @@ router.get('/', function(req, res) {
 router.post('/', function(req, res) {
     var name = req.param('name');
     var code = req.param('code');
-
-    playerEntries.entries.push({
-        name: name,
-        code: code
-    });
-
+    var found = false;
+    for(var i =0;i<playerEntries.entries.length;i++)
+    {
+        if(playerEntries.entries[i].name == name)
+        {
+            playerEntries.entries[i].code = code;
+            found = true;
+        }
+    }
+    if(!found)
+    {
+        playerEntries.entries.push({
+            name: name,
+            code: code,
+            wins: 0,
+            losses: 0,
+            ties: 0
+        });
+    }
     res.redirect('/');
 });
 

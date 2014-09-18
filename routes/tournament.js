@@ -8,7 +8,8 @@ router.get('/', function(req, res) {
     var results = game.play();
     res.render('tournament', {
         title: 'Tournament',
-        results: results
+        results: results,
+        entries: playerEntries.entries
     });
 });
 
