@@ -1,5 +1,6 @@
 var playerEntries = require('./playerEntries');
 var gameScorer = require('./logic/gameScorer');
+var playerActions = require('./logic/playerActions');
 
 var _getPlayerCodeValue = function (codeToRun) {
     try {
@@ -31,17 +32,11 @@ var _getP2Result = function(p1result) {
     return "tie";
 };
 
-var _try = function (entry, code, funcName, params) {
-    try {
-        return code[funcName].apply(code, params);
-    } catch (ex) {
-        console.log("Error from: " + entry.name, ex);
-    }
-}
+
 
 var _playMatch = function (p1, p2) {
-    var p1code = _getPlayerCodeValue(p1.code);
-    var p2code = _getPlayerCodeValue(p2.code);
+    p2.evaledCode = _getPlayerCodeValue(p2.code);
+    p1.evaledCode = _getPlayerCodeValue(p1.code);
     var p1action, p2action;
     var ties = 0;
     var p1result = "loss";
@@ -52,12 +47,12 @@ var _playMatch = function (p1, p2) {
         p2wins: 0
     };
 
-    _try(p1, p1code, "start", []);
-    _try(p2, p2code, "start", []);
+    playerActions.start(p1);
+    playerActions.start(p2);
 
     for(var i = 0; i < 1000; i++) {
-        p1action = _try(p1, p1code, "play", []);
-        p2action = _try(p2, p2code, "play", []);
+        p1action = playerActions.play(p1);
+        p2action = playerActions.play(p2);
 
         if(_isTie(p1action, p2action)) {
             p1result = "tie";
@@ -73,13 +68,13 @@ var _playMatch = function (p1, p2) {
             }
             ties = 0;
         }
- 
-        _try(p1, p1code, "result", [p2action, p1result]);
-        _try(p2, p2code, "result", [p1action, _getP2Result(p1result)]);
+
+        playerActions.result(p1, [p2action, p1result]);
+        playerActions.result(p2, [p1action, _getP2Result(p1result)]);
     }
 
-    _try(p1, p1code, "end", []);
-    _try(p2, p2code, "end", []);
+    playerActions.end(p1);
+    playerActions.end(p2);
 
     if(result.p1wins > result.p2wins) {
         p1.wins++;
