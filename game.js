@@ -35,6 +35,10 @@ var _getP2Result = function(p1result) {
 var _playMatch = function (p1, p2) {
     p2.evaledCode = _getPlayerCodeValue(p2.code);
     p1.evaledCode = _getPlayerCodeValue(p1.code);
+
+    p1.boomSticks = 100;
+    p2.boomSticks = 100;
+
     var ties = 0;
     var p1result = "loss";
     var result = {
@@ -55,7 +59,7 @@ var _playMatch = function (p1, p2) {
             p1result = "tie";
             ties++;
         } else {
-            p1Won = gameScorer.didPlayerOneWin(p1.currentAction, p2.currentAction);
+            p1Won = gameScorer.didPlayerOneWin(p1, p2);
             if(p1Won) {
                 p1result = "win";
                 result.p1wins += (1 + ties);
@@ -65,6 +69,9 @@ var _playMatch = function (p1, p2) {
             }
             ties = 0;
         }
+
+        p1.boomSticks = (p1.currentAction === 'D') ? p1.boomSticks -1 : p1.boomSticks;
+        p2.boomSticks = (p2.currentAction === 'D') ? p2.boomSticks -1 : p2.boomSticks;
 
         playerActions.result(p1, [p2.currentAction, p1result]);
         playerActions.result(p2, [p1.currentAction, _getP2Result(p1result)]);
