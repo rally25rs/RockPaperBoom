@@ -2,6 +2,8 @@ var playerEntries = require('./playerEntries');
 var gameScorer = require('./logic/gameScorer');
 var playerActions = require('./logic/playerActions');
 
+var MAX_BOOM_STICKS = 100;
+
 var _getPlayerCodeValue = function (codeToRun) {
     try {
         return eval('new Object(' + codeToRun + ')');
@@ -36,8 +38,8 @@ var _playMatch = function (p1, p2) {
     p2.evaledCode = _getPlayerCodeValue(p2.code);
     p1.evaledCode = _getPlayerCodeValue(p1.code);
 
-    p1.boomSticks = 100;
-    p2.boomSticks = 100;
+    p1.boomSticks = MAX_BOOM_STICKS;
+    p2.boomSticks = MAX_BOOM_STICKS;
 
     var ties = 0;
     var p1result = "loss";
