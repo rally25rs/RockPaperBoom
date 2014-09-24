@@ -1,7 +1,3 @@
-var _isValidAction = function(action) {
-    var validActions = {R: true, P: true, S: true, D: true, W: true};
-    return validActions[action];
-};
 
 exports.didPlayerOneWin = function (p1action, p2action) {
     if(p1action === 'R' && (p2action === 'P'|| p2action === 'D')) {
@@ -24,6 +20,16 @@ exports.didPlayerOneWin = function (p1action, p2action) {
     return true;
 };
 
-exports.isTie = function (playerOne, playerTwo) {
-    return playerOne.currentAction === playerTwo.currentAction;
+var _isValidAction = function(action) {
+    var validActions = {R: true, P: true, S: true, D: true, W: true};
+    return validActions[action];
 };
+
+exports.isTie = function (playerOne, playerTwo) {
+    if (playerOne.currentAction !== 'D' || playerTwo.currentAction !== 'D') {
+        return playerOne.currentAction === playerTwo.currentAction;
+    }
+
+    return playerOne.boomSticks <= 0 
+        && playerTwo.boomSticks <= 0;
+}

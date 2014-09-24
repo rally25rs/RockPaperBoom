@@ -25,7 +25,7 @@ router.post('/', function(req, res) {
             code: code,
             wins: 0,
             losses: 0,
-            ties: 0
+            ties: 0,
         });
     }
     res.redirect('/');
