@@ -32,12 +32,9 @@ var _getP2Result = function(p1result) {
     return "tie";
 };
 
-
-
 var _playMatch = function (p1, p2) {
     p2.evaledCode = _getPlayerCodeValue(p2.code);
     p1.evaledCode = _getPlayerCodeValue(p1.code);
-    var p1action, p2action;
     var ties = 0;
     var p1result = "loss";
     var result = {
@@ -51,14 +48,14 @@ var _playMatch = function (p1, p2) {
     playerActions.start(p2);
 
     for(var i = 0; i < 1000; i++) {
-        p1action = playerActions.play(p1);
-        p2action = playerActions.play(p2);
+        p1.currentAction = playerActions.play(p1);
+        p2.currentAction = playerActions.play(p2);
 
-        if(_isTie(p1action, p2action)) {
+        if(gameScorer.isTie(p1, p2)) {
             p1result = "tie";
             ties++;
         } else {
-            p1Won = _didP1Win(p1action, p2action);
+            p1Won = gameScorer.didPlayerOneWin(p1.currentAction, p2.currentAction);
             if(p1Won) {
                 p1result = "win";
                 result.p1wins += (1 + ties);
@@ -69,8 +66,8 @@ var _playMatch = function (p1, p2) {
             ties = 0;
         }
 
-        playerActions.result(p1, [p2action, p1result]);
-        playerActions.result(p2, [p1action, _getP2Result(p1result)]);
+        playerActions.result(p1, [p2.currentAction, p1result]);
+        playerActions.result(p2, [p1.currentAction, _getP2Result(p1result)]);
     }
 
     playerActions.end(p1);
@@ -89,12 +86,6 @@ var _playMatch = function (p1, p2) {
 
     return result;
 };
-
-var _isTie = function (p1action, p2action) {
-    return p1action === p2action;
-};
-
-var _didP1Win = gameScorer.didPlayerOneWin;
 
 var _clearPlayerRecords = function () {
     var entry;

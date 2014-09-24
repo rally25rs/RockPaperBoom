@@ -22,5 +22,8 @@ exports.didPlayerOneWin = function (p1action, p2action) {
         return false;
     }
     return true;
-}
+};
 
+exports.isTie = function (playerOne, playerTwo) {
+    return playerOne.currentAction === playerTwo.currentAction;
+};
