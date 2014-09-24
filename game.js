@@ -1,4 +1,5 @@
 var playerEntries = require('./playerEntries');
+var gameScorer = require('./logic/gameScorer');
 
 var _getPlayerCodeValue = function (codeToRun) {
     try {
@@ -98,31 +99,7 @@ var _isTie = function (p1action, p2action) {
     return p1action === p2action;
 };
 
-var _isValidAction = function(action) {
-    var validActions = {R: true, P: true, S: true, D: true, W: true};
-    return validActions[action];
-};
-
-var _didP1Win = function (p1action, p2action) {
-    if(p1action === 'R' && (p2action === 'P'|| p2action === 'D')) {
-        return false;
-    }
-    if(p1action === 'P' && (p2action === 'S'|| p2action === 'D')) {
-        return false;
-    }
-    if(p1action === 'S' && (p2action === 'R'|| p2action === 'D')) {
-        return false;
-    }
-    if(p1action === 'D' && p2action === 'W') {
-        return false;
-    }
-    if(p1action === 'W' && p2action !== 'D') {
-        return false;
-    } if (!_isValidAction(p1action)) {
-        return false;
-    }
-    return true;
-};
+var _didP1Win = gameScorer.didPlayerOneWin;
 
 var _clearPlayerRecords = function () {
     var entry;
