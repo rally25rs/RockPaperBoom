@@ -1,5 +1,8 @@
 var playerEntries = require('./playerEntries');
 var gameScorer = require('./logic/gameScorer');
+var playerActions = require('./logic/playerActions');
+
+var MAX_BOOM_STICKS = 100;
 
 var _getPlayerCodeValue = function (codeToRun) {
     try {
@@ -31,18 +34,13 @@ var _getP2Result = function(p1result) {
     return "tie";
 };
 
-var _try = function (entry, code, funcName, params) {
-    try {
-        return code[funcName].apply(code, params);
-    } catch (ex) {
-        console.log("Error from: " + entry.name, ex);
-    }
-}
-
 var _playMatch = function (p1, p2) {
-    var p1code = _getPlayerCodeValue(p1.code);
-    var p2code = _getPlayerCodeValue(p2.code);
-    var p1action, p2action;
+    p2.evaledCode = _getPlayerCodeValue(p2.code);
+    p1.evaledCode = _getPlayerCodeValue(p1.code);
+
+    p1.boomSticks = MAX_BOOM_STICKS;
+    p2.boomSticks = MAX_BOOM_STICKS;
+
     var ties = 0;
     var p1result = "loss";
     var result = {
@@ -52,18 +50,18 @@ var _playMatch = function (p1, p2) {
         p2wins: 0
     };
 
-    _try(p1, p1code, "start", []);
-    _try(p2, p2code, "start", []);
+    playerActions.start(p1);
+    playerActions.start(p2);
 
     for(var i = 0; i < 1000; i++) {
-        p1action = _try(p1, p1code, "play", []);
-        p2action = _try(p2, p2code, "play", []);
+        p1.currentAction = playerActions.play(p1);
+        p2.currentAction = playerActions.play(p2);
 
-        if(_isTie(p1action, p2action)) {
+        if(gameScorer.isTie(p1, p2)) {
             p1result = "tie";
             ties++;
         } else {
-            p1Won = _didP1Win(p1action, p2action);
+            p1Won = gameScorer.didPlayerOneWin(p1, p2);
             if(p1Won) {
                 p1result = "win";
                 result.p1wins += (1 + ties);
@@ -73,13 +71,16 @@ var _playMatch = function (p1, p2) {
             }
             ties = 0;
         }
- 
-        _try(p1, p1code, "result", [p2action, p1result]);
-        _try(p2, p2code, "result", [p1action, _getP2Result(p1result)]);
+
+        p1.boomSticks = (p1.currentAction === 'D') ? p1.boomSticks -1 : p1.boomSticks;
+        p2.boomSticks = (p2.currentAction === 'D') ? p2.boomSticks -1 : p2.boomSticks;
+
+        playerActions.result(p1, [p2.currentAction, p1result]);
+        playerActions.result(p2, [p1.currentAction, _getP2Result(p1result)]);
     }
 
-    _try(p1, p1code, "end", []);
-    _try(p2, p2code, "end", []);
+    playerActions.end(p1);
+    playerActions.end(p2);
 
     if(result.p1wins > result.p2wins) {
         p1.wins++;
@@ -94,12 +95,6 @@ var _playMatch = function (p1, p2) {
 
     return result;
 };
-
-var _isTie = function (p1action, p2action) {
-    return p1action === p2action;
-};
-
-var _didP1Win = gameScorer.didPlayerOneWin;
 
 var _clearPlayerRecords = function () {
     var entry;
