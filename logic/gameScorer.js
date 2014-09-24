@@ -31,7 +31,7 @@ exports.didPlayerOneWin = function (p1, p2) {
     if (!_isValidAction(p1.currentAction)) {
         return false;
     }
-    
+
     return true;
 };
 
@@ -45,6 +45,6 @@ exports.isTie = function (playerOne, playerTwo) {
         return playerOne.currentAction === playerTwo.currentAction;
     }
 
-    return playerOne.boomSticks <= 0 
-        && playerTwo.boomSticks <= 0;
+    return (playerOne.boomSticks <= 0 && playerTwo.boomSticks <= 0)
+        || (playerOne.boomSticks > 0 && playerTwo.boomSticks > 0);
 }
