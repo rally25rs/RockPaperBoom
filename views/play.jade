@@ -3,6 +3,9 @@ extends layout
 block content
   h1= title
 
+  if error
+    p(style="color: red;")= error
+
   form(action="/play" method="POST")
 
       p Enter your player name:
