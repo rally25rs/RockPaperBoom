@@ -6,7 +6,7 @@ var _testPlayerCode = function (code) {
   try {
     var bot = eval('new Object(' + code + ')');
     bot.start();
-    bot.play()
+    bot.play();
     bot.result('R', 'tie');
     bot.end();
   } catch (ex) {
