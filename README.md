@@ -24,4 +24,4 @@ There is also no security or anything. The server was made avaialble on the loca
 2. Open a command prompt / shell and go to the directory where this repo is cloned
 3. run > `npm install` one time to download the dependencies.
 4. run > `npm start` to start the server
-5. open a browser to `localhost:3000`
+5. open a browser to `localhost:4000`
