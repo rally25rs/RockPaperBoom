@@ -3,8 +3,6 @@ var playerEntries = require('../playerEntries');
 var router = express.Router();
 
 var _testPlayerCode = function (code) {
-  var success = true;
-
   try {
     var bot = eval('new Object(' + code + ')');
     bot.start();
@@ -12,10 +10,8 @@ var _testPlayerCode = function (code) {
     bot.result('R', 'tie');
     bot.end();
   } catch (ex) {
-    success = false;
+    return ex.message;
   }
-
-  return success;
 };
 
 
@@ -27,9 +23,9 @@ router.post('/', function(req, res) {
     var name = req.param('name');
     var code = req.param('code');
 
-    var isCodeValid = _testPlayerCode(code);
-    if (!isCodeValid) {
-      res.render('play', { title: 'Play', error: "Code Fails" });
+    var codeErrorMessage = _testPlayerCode(code);
+    if (codeErrorMessage) {
+      res.render('play', { title: 'Play', error: "Code Fails with error: " + codeErrorMessage });
       return;
     }
     var found = false;

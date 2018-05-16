@@ -1,5 +1,13 @@
 
 exports.didPlayerOneWin = function (p1, p2) {
+    if (!_isValidAction(p1.currentAction)) {
+        return false;
+    }
+
+    if (!_isValidAction(p2.currentAction)) {
+        return true;
+    }
+
     if(p1.currentAction === 'D' && p1.boomSticks <= 0) {
         return false;
     }
@@ -27,10 +35,6 @@ exports.didPlayerOneWin = function (p1, p2) {
     if(p1.currentAction === 'W' && p2.currentAction !== 'D') {
         return false;
     } 
-
-    if (!_isValidAction(p1.currentAction)) {
-        return false;
-    }
 
     return true;
 };

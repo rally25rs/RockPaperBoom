@@ -43,6 +43,7 @@ var _playMatch = function (p1, p2) {
 
     var ties = 0;
     var p1result = "loss";
+    var p1Won = false;
     var result = {
         p1: p1.name,
         p2: p2.name,
