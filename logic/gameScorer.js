@@ -45,6 +45,10 @@ var _isValidAction = function(action) {
 };
 
 exports.isTie = function (playerOne, playerTwo) {
+    if (!_isValidAction(playerOne.currentAction) && !_isValidAction(playerTwo.currentAction)) {
+        return true;
+    }
+
     if (playerOne.currentAction !== 'D' || playerTwo.currentAction !== 'D') {
         return playerOne.currentAction === playerTwo.currentAction;
     }
