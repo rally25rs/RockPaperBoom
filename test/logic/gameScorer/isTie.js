@@ -11,6 +11,14 @@ describe('isTie', function() {
 		playerOne = {};
 	});
 
+	it('should return true when both players choose an invalid action',function() {
+		playerOne.currentAction = '';
+		playerTwo.currentAction = '';
+
+	  var isTie = gameScorer.isTie(playerOne, playerTwo);
+	  expect(isTie).to.be.true;
+	});
+
   	it('should return true when both players throw rock',function() {
   		playerOne.currentAction = 'R';
   		playerTwo.currentAction = 'R';
